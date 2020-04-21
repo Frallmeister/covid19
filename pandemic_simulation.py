@@ -101,11 +101,13 @@ if __name__ == '__main__':
     N = 200
     I0 = 10
 
+    population_density = 51 # per sq km in each region
+
     # Instantiate objects
     # people = [Individual(box=[xlim, ylim]) for _ in range(N-I0)]
     # people.extend([Individual(status='I') for _ in range(I0)])
 
-    for L in range(3,10):
+    for L in [10]*9:
         xlim, ylim = L,L
         for n in [200]:
             print(f'\nL={L}, n={n}')
@@ -122,8 +124,13 @@ if __name__ == '__main__':
             print(t2-t1)
             
         
-            fig, ax = plt.subplots()
-            ax.stackplot(np.linspace(0,t_max/100,len(s)), i,s,r, labels=['I', 'S', 'R'], colors=['r', 'b', 'gray'])
-            ax.axis([0, t_max/100, 0, N])
-            ax.set_title(f"N={n}, I0={I0}, xlim={xlim}, ylim={ylim}", fontsize=15)
-            ax.legend()
+            fig, (ax1, ax2) = plt.subplots(1,2,figsize=(15,8))
+            ax1.stackplot(np.linspace(0,t_max/100,len(s)), i,s,r, labels=['I', 'S', 'R'], colors=['r', 'b', 'gray'])
+            ax1.axis([0, t_max/100, 0, N])
+            ax1.set_title(f"N={n}, I0={I0}, xlim={xlim}, ylim={ylim}", fontsize=15)
+            ax1.legend()
+
+            ax2.plot(np.linspace(0, t_max/100, len(s)), 2.5*np.array(s)/N)
+            ax2.grid(True)
+            ax2.set_title('Effective reproduction number R', fontsize=15)
+
